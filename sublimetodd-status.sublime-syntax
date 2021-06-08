@@ -1,0 +1,21 @@
+%YAML 1.2
+---
+
+name: Todd Status
+scope: text.todd-status
+
+contexts:
+  main:
+    - match: '▉'
+      scope: support.class.todd-status.title
+    - match: "Hi, I'm Todd"
+      scope: constant.numeric.todd-status.label
+    - match: '(To-do|Doing|Done|Notes)'
+      scope: keyword.control.todd-status.commands
+    - match: '^#.*'
+      push: comment
+
+  comment:
+    - meta_scope: comment.todd-status.help
+    - match: '( r | s | a | n )'
+      scope: string.other.todd-status.help

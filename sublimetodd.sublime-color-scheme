@@ -1,0 +1,31 @@
+{
+    "name": "Example Color Scheme",
+    "globals":
+    {
+        "background": "rgb(34, 34, 34)",
+        "foreground": "white",
+        "caret": "white"
+    },
+    "rules":
+    [
+        {
+            "name": "Comment",
+            "scope": "todd.status.help",
+            "foreground": "#888888"
+        },
+        {
+            "name": "String",
+            "scope": "string",
+            "foreground": "hsla(50, 100%, 50%, 1)",
+        },
+        {
+            "name": "Number",
+            "scope": "constant.numeric",
+            "foreground": "#7F00FF",
+            "font_style": "italic",
+        }
+    ]
+}
+
+
+// https://www.sublimetext.com/docs/color_schemes.html

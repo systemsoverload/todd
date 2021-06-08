@@ -1,0 +1,14 @@
+[
+	{ "keys": ["ctrl+shift+h"], "command": "todd_status", },
+    { "keys": ["r"], "command": "todd_status_refresh",
+        "context": [
+            { "key": "selector", "operator": "equal", "operand": "text.todd-status" }
+        ]
+    },
+    // Disable "save"
+    { "keys": ["ctrl+s"], "command": "noop", // TODO - override this on Mac
+        "context": [
+            { "key": "selector", "operator": "equal", "operand": "text.todd-status" }
+        ]
+    },
+]
