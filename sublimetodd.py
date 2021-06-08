@@ -1,8 +1,12 @@
+import configparser
 import sublime
+
+from datetime import datetime
+
 from sublime_plugin import WindowCommand, TextCommand
 
 
-TODD_HELP = """\
+TODD_TPL = """\
 ▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉
 ▉▉                     Hi, I'm Todd                     ▉▉
 ▉▉                                                      ▉▉
@@ -19,7 +23,7 @@ Done:
     {dones}
 
 Notes:
-    Long lived reminder; call your mother
+    {notes}
 
 
 # Movement:
@@ -30,11 +34,15 @@ Notes:
 #    a = Add new task
 #    n = Add new note
 
-Last Refreshed - {}
+Last Refreshed - {updated}
 """
-['Create sublimetext plugin for managing']
-['Decide on a name for sublimetext task management plugin']
-['Create simple storage backend for tasks']
+
+
+def get_tasks(path):
+    config = configparser.ConfigParser(allow_no_value=True)
+    config.read(path)
+    return config
+
 
 def find_view_by_settings(window, **kwargs):
     for view in window.views():
@@ -65,9 +73,20 @@ class ToddStatusCommand(WindowCommand):
 class ToddStatusRefreshCommand(TextCommand):
     def run(self, edit):
         self.view.set_read_only(False)
-        # XXX - Actual data fetch should go here
-        from datetime import datetime
-        self.view.replace(edit, sublime.Region(0, self.view.size()), TODD_HELP.format(datetime.now()))
+        
+        tasks = get_tasks('sublime-todd/tasks.ini')
+        
+        context = {
+            'todos': "\n\t".join([x for x in tasks['todos']]),
+            'doings': "\n\t".join([x for x in tasks['doings']]),
+            'dones': "\n\t".join([x for x in tasks['dones']]),
+            'notes': "\n\t".join([x for x in tasks['notes']]),
+            'updated': datetime.now()
+        }
+
+        output = TODD_TPL.format(**context)
+
+        self.view.replace(edit, sublime.Region(0, self.view.size()), output)
         self.view.set_read_only(True)
 
         # By default the entire buffer is selected, clear the selection and
