@@ -10,8 +10,10 @@ contexts:
       scope: support.class.todd-status.title
     - match: "Hi, I'm Todd"
       scope: constant.numeric.todd-status.label
-    - match: '(To-do|Doing|Done|Notes)'
-      scope: keyword.control.todd-status.commands
+    - match: '(To-do:|Doing:|Done:|Notes:)'
+      scope: keyword.control.todd-status.headers
+    - match: '^    '
+      push: task
     - match: '^#.*'
       push: comment
 
@@ -19,3 +21,10 @@ contexts:
     - meta_scope: comment.todd-status.help
     - match: '( r | s | a | n )'
       scope: string.other.todd-status.help
+
+  task:
+    - meta_scope: text.todd-status.task
+    - match: "☑.*"
+      scope: text.todd-status.completed-task
+    - match: "\n"
+      pop: true

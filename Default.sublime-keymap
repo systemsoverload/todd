@@ -5,9 +5,25 @@
             { "key": "selector", "operator": "equal", "operand": "text.todd-status" }
         ]
     },
+    { "keys": ["s"], "command": "todd_status_complete_task",
+        "context": [
+            { "key": "selector", "operator": "equal", "operand": "text.todd-status.task" }
+        ]
+    },
+    { "keys": ["a"], "command": "todd_status_add_task",
+        "context": [
+            { "key": "selector", "operator": "equal", "operand": "text.todd-status" }
+        ]
+    },
+    { "keys": ["right"], "command": "todd_status_expand_context",
+        "context": [
+            { "key": "selector", "operator": "equal", "operand": "text.todd-status.task" }
+        ]
+    },
     // Disable "save"
     { "keys": ["ctrl+s"], "command": "noop", // TODO - override this on Mac
         "context": [
+            { "key": "selector", "operator": "not_equal", "operand": "text.todd-status.completed-task" },
             { "key": "selector", "operator": "equal", "operand": "text.todd-status" }
         ]
     },
