@@ -1,53 +1,55 @@
 import sublime
-import toml
+# import toml
 
 from datetime import datetime
 
 from sublime_plugin import WindowCommand, TextCommand, EventListener, TextInputHandler
 
 
+
+ITEM_TPL = "│    {}"
 TODD_TPL = """\
-▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉
-▉▉                     Hi, I'm Todd                     ▉▉
-▉▉                                                      ▉▉
-▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉
-
-
-To-do:
-    {todos}
-
-Doing:
-    {doings}
-
-Done:
-    {dones}
-
-Notes:
-    {notes}
-
-
-# Movement:
-#    r = refresh
-#
-# Operations:
-#    s = Complete task
-#    a = Add new task
-#    n = Add new note
-
-Last Refreshed - {updated}
+┌──Hi, I'm Todd───────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                                                     │
+│To-do:                                                                                                               │
+{todos}
+│                                                                                                                     │
+│Doing:                                                                                                               │
+{doings}
+│                                                                                                                     │
+│Done:                                                                                                                │
+{dones}
+│                                                                                                                     │
+│Notes:                                                                                                               │
+{notes}
+│                                                                                                                     │
+│                                                                                                                     │
+│# Movement:                                                                                                          │
+│#    r = refresh                                                                                                     │
+│#                                                                                                                    │
+│# Operations:                                                                                                        │
+│#    s = Complete task                                                                                               │
+│#    a = Add new task                                                                                                │
+│#    n = Add new note                                                                                                │
+│                                                                                                                     │
+│Last Refreshed: {updated}                                                                           │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘  
 """
 
 class Tasks:
     def __init__(self, task_data_path):
-        self.task_data = toml.load(open(task_data_path))
+        # self.task_data = toml.load(open(task_data_path))
+        self.task_data = {"todos": [{"title": "hi"}, {"title": "world"}], 
+                          "doings": [{"title": "its"}, {"title": "me"}], 
+                          "dones": [{"title": "Todd!"}], "notes": [{"title": "Don't forget to call your mother"}]}
 
     @property
     def overview(self):
         return {
-            'todos': "\n    ".join([x['title'] for x in self.task_data['todos']]),
-            'doings': "\n    ".join([x['title'] for x in self.task_data['doings']]),
-            'dones': "\n    ".join([x['title'] for x in self.task_data['dones']]),
-            'notes': "\n    ".join([x['title'] for x in self.task_data['notes']]),
+            'todos': "\n".join([ITEM_TPL.format(x['title']).ljust(118, " ") + "│" for x in self.task_data['todos']]),
+            'doings': "\n".join([ITEM_TPL.format(x['title']).ljust(118, " ") + "│" for x in self.task_data['doings']]),
+            'dones': "\n".join([ITEM_TPL.format(x['title']).ljust(118, " ") + "│" for x in self.task_data['dones']]),
+            'notes': "\n".join([ITEM_TPL.format(x['title']).ljust(118, " ") + "│" for x in self.task_data['notes']]),
             'updated': datetime.now()
         }
 

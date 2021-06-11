@@ -27,4 +27,20 @@
             { "key": "selector", "operator": "equal", "operand": "text.todd-status" }
         ]
     },
+    { "keys": ["right"], "command": "null",
+        "context": [
+            { "key": "selector", "operator": "equal", "operand": "text.todd-status" }
+        ]},
+    { "keys": ["left"], "command": "null",
+        "context": [
+            { "key": "selector", "operator": "equal", "operand": "text.todd-status" }
+        ]},
+    { "keys": ["up"], "command": "null",
+        "context": [
+            { "key": "selector", "operator": "equal", "operand": "text.todd-status" }
+        ]},
+    { "keys": ["down"], "command": "null",
+        "context": [
+            { "key": "selector", "operator": "equal", "operand": "text.todd-status" }
+        ]},
 ]
